@@ -106,7 +106,7 @@ public class StreamReader  {
 }
 
 extension StreamReader : Sequence {
-    func makeIterator() -> AnyIterator<String> {
+    public func makeIterator() -> AnyIterator<String> {
         return AnyIterator {
             return self.nextLine()
         }
@@ -121,7 +121,7 @@ extension StreamReader : Sequence {
  *
  */
 
-public final class StreamWriter  {
+public class StreamWriter  {
     
     let encoding : String.Encoding
     var fileHandle : FileHandle!
