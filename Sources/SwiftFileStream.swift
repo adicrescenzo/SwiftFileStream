@@ -42,8 +42,8 @@ public class StreamReader  {
     var buffer : Data
     var atEof : Bool
     
-    init?(path: String, delimiter: String = "\n", encoding: String.Encoding = .utf8,
-          chunkSize: Int = 4096) {
+    public init?(path: String, delimiter: String = "\n", encoding: String.Encoding = .utf8,
+                 chunkSize: Int = 4096) {
         
         guard let fileHandle = FileHandle(forReadingAtPath: path),
             let delimData = delimiter.data(using: encoding) else {
@@ -62,7 +62,7 @@ public class StreamReader  {
     }
     
     /// Return next line, or nil on EOF.
-    func nextLine() -> String? {
+    public func nextLine() -> String? {
         precondition(fileHandle != nil, "Attempt to read from closed file")
         
         // Read data chunks from file until a line delimiter is found:
@@ -92,14 +92,14 @@ public class StreamReader  {
     }
     
     /// Start reading from the beginning of file.
-    func rewind() -> Void {
+    public func rewind() -> Void {
         fileHandle.seek(toFileOffset: 0)
         buffer.count = 0
         atEof = false
     }
     
     /// Close the underlying file. No reading must be done after calling this method.
-    func close() -> Void {
+    public func close() -> Void {
         fileHandle?.closeFile()
         fileHandle = nil
     }
@@ -135,8 +135,8 @@ public class StreamWriter  {
         /// Thrown when a String couldn't be converted into Data using the given encoding during the write process
         case stringEncodingFailed
     }
-
-    init(path: String, delimiter: String = "\n", encoding: String.Encoding = .utf8) throws {
+    
+    public init(path: String, delimiter: String = "\n", encoding: String.Encoding = .utf8) throws {
         
         guard let fileHandle = FileHandle(forWritingAtPath: path),
             let delimData = delimiter.data(using: encoding) else {
@@ -153,7 +153,7 @@ public class StreamWriter  {
         self.close()
     }
     
-    func write(string: String) throws {
+    public func write(string: String) throws {
         guard let data = string.data(using: self.encoding) else {
             throw Error.stringEncodingFailed
         }
@@ -168,7 +168,7 @@ public class StreamWriter  {
     }
     
     /// Close the underlying file. No reading must be done after calling this method.
-    func close() -> Void {
+    public func close() -> Void {
         fileHandle?.closeFile()
         fileHandle = nil
     }
